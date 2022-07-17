@@ -365,6 +365,31 @@ pub struct SemanticTokensClientCapabilities {
     /// Whether the client supports tokens that can span multiple lines.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub multiline_token_support: Option<bool>,
+
+	/// Whether the client allows the server to actively cancel a
+	/// semantic token request, e.g. supports returning
+	/// ErrorCodes.ServerCancelled. If a server does the client
+	/// needs to retrigger the request.
+	///
+	///  @since 3.17.0 - proposed state
+	/// 
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[cfg(feature = "proposed")]
+	pub server_cancel_support: Option<bool>;
+
+	/// Whether the client uses semantic tokens to augment existing
+	/// syntax tokens. If set to `true` client side created syntax
+	/// tokens and semantic tokens are both used for colorization. If
+	/// set to `false` the client only uses the returned semantic tokens
+	/// for colorization.
+	///
+	/// If the value is `undefined` then the client behavior is not
+	/// specified.
+	///
+	/// @since 3.17.0 - proposed state
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[cfg(feature = "proposed")]
+	pub augments_syntax_tokens: Option<bool>;
 }
 
 #[derive(Debug, Eq, PartialEq, Clone, Default, Deserialize, Serialize)]
